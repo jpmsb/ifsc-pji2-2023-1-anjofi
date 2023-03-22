@@ -19,11 +19,12 @@ A placa de desenvolvimento a qual o _NodeMCU_ foi utilizado conta com os seguint
 - DHT11 para temperatura e umidade, conectado no pino 12
 - Sensor de luminosidade conectado no pino 15
 - Botão conectado no pino 4
+- Acelerômetro de 3 eixos, conectados nos pinos de interrupção 34 e 35
 
 ## PlatformIO
 ### Instalação
 
-O sistema operacional utilizado para o desenvolvimento do projeto é o [openSUSE Tumbleweed](https://get.opensuse.org/tumbleweed/). Para instalar os pacotes necessários para a programação do módulo ESP32, foi utilizado o seguinte comando:
+O sistema operacional utilizado para o desenvolvimento do projeto é o [openSUSE Tumbleweed](https://get.opensuse.org/tumbleweed/). Para instalar os pacotes necessários para a programação do módulo ESP32, utiliza-se o seguinte comando:
 
 ```
 sudo zypper install python310-platformio python310-packaging
