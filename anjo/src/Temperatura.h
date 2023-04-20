@@ -12,14 +12,14 @@ class Temperatura {
 
         void measureBaseValue();
 
-        int getCurrent();
+        float getCurrent();
 
-        int getBaseValue();
+        float getBaseValue();
 
         ~Temperatura() {};
 
     private:
-        int baseValue = 0;
+        float baseValue = 0;
         float previousValue = 0;
         float currentValue = 0;
         DHT dht;

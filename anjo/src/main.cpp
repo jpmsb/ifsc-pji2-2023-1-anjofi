@@ -9,8 +9,8 @@
 ***********************************************/
 
 //Inclusao da bilbioteca do sensor DHT11 
-#include "Temperatura.h"
 #include "LDR.h"
+#include "AC.h"
 
 //Declaracao das variaveis dos pinos dos sensores e botao
 const int pinoDHT = 12;
@@ -21,9 +21,9 @@ const int pinoLED = 13;
 //Declaracao das variaveis que receberao a leitura do botao e sensor de luz
 int estadoBotao = 0;
 int valorLDR = 0;
+bool pressionado = false;
 
 //Criacao da instancia DHT, em funcao do pino do sensor e do tipo do DHT
-Temperatura temp;
 LDR ldr(15);
 
 void setup() {
@@ -41,48 +41,45 @@ void setup() {
 
   delay(1000);
   ldr.measureBaseValue();
+
+  if (pinoBotao == LOW) pressionado = true;
 }
 
-void loop() {
+AC ac(pressionado);
 
+void loop() {
   //Assimilamos a variavel estadoBotao a leitura digital do pino do botao    
   estadoBotao = digitalRead(pinoBotao);
 
   //Se o botao estiver pressionado, entramos nesta rotina condicional
-  if (estadoBotao == LOW) {
-    delay(30);
-    estadoBotao = digitalRead(pinoBotao);
-	
-    //Criamos duas variaveis locais para armazenar a temperatura e a umidade lidas
-    float temperatura = temp.getCurrent();
-    // float umidade = dht.readHumidity();
-	
-    //Mostramos no Monitor Serial os valores de temperatura e umidade
-    Serial.print("Temperatura: ");
-    Serial.println(temperatura);
-    // Serial.print(" *C - Umidade: ");
-    // Serial.print(umidade);
-    Serial.print("Luminosidade atual: ");
-	
-    //Lemos entao o sensor LDR e mapeamos seu valor de 0 a 100 %
-    
+  delay(1000);
+  estadoBotao = digitalRead(pinoBotao);
+      
+  //Criamos duas variaveis locais para armazenar a temperatura e a umidade lidas
+  ac.getValues();
+  float temperatura = ac.getCurrentTemperature();
+  // float umidade = dht.readHumidity();
+      
+  //Mostramos no Monitor Serial os valores de temperatura e umidade
+  Serial.print("Temperatura: ");
+  Serial.println(temperatura);
+  // Serial.print(" *C - Umidade: ");
+  // Serial.print(umidade);
+  Serial.print("Luminosidade atual: ");
+      
+  //Lemos entao o sensor LDR e mapeamos seu valor de 0 a 100 %
+  
 
-    //Finalizamos a linha impressa no Monitor Serial com a luminosidade em %
-    Serial.println(ldr.getCurrent());
-    Serial.print("Luminosidade base: ");
-    Serial.println(ldr.getBaseValue());
+  //Finalizamos a linha impressa no Monitor Serial com a luminosidade em %
+  Serial.println(ldr.getCurrent());
+  Serial.print("Luminosidade base: ");
+  Serial.println(ldr.getBaseValue());
 
-    Serial.print("Luminosidade status: ");
+  Serial.print("Luminosidade status: ");
 
-    if (ldr.getStatus()) {
-        Serial.println("Ligado");
+  if (ldr.getStatus()) {
+      Serial.println("Ligado");
 
-    } else Serial.println("Desligado");
+  } else Serial.println("Desligado");
 
-    digitalWrite(pinoLED, HIGH);
-    while (digitalRead(pinoBotao) == LOW) {
-      //Esperamos soltar o botao para nao haver duas leituras
-    }
-    digitalWrite(pinoLED, LOW);
-  }
 }

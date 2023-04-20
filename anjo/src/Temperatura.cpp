@@ -14,10 +14,10 @@ void Temperatura::measureBaseValue(){
     baseValue = currentValue;
 }
 
-int Temperatura::getCurrent(){
+float Temperatura::getCurrent(){
     return currentValue;
 }
 
-int Temperatura::getBaseValue(){
+float Temperatura::getBaseValue(){
     return baseValue;
 }
