@@ -25,6 +25,7 @@ bool pressionado = false;
 
 //Criacao da instancia DHT, em funcao do pino do sensor e do tipo do DHT
 LDR ldr(15);
+AC *ac;
 
 void setup() {
   //Abrimos uma comunicacao serial para imprimir dados no Monitor Serial
@@ -42,44 +43,45 @@ void setup() {
   delay(1000);
   ldr.measureBaseValue();
 
-  if (pinoBotao == LOW) pressionado = true;
+  if (digitalRead(pinoBotao) == LOW) pressionado = true;
+  ac = new AC(pressionado);
 }
 
-AC ac(pressionado);
+//AC ac(pressionado);
 
 void loop() {
   //Assimilamos a variavel estadoBotao a leitura digital do pino do botao    
   estadoBotao = digitalRead(pinoBotao);
 
-  //Se o botao estiver pressionado, entramos nesta rotina condicional
   delay(1000);
-  estadoBotao = digitalRead(pinoBotao);
-      
   //Criamos duas variaveis locais para armazenar a temperatura e a umidade lidas
-  ac.getValues();
-  float temperatura = ac.getCurrentTemperature();
+  ac->getValues();
+  float temperatura = ac->getCurrentTemperature();
   // float umidade = dht.readHumidity();
       
   //Mostramos no Monitor Serial os valores de temperatura e umidade
   Serial.print("Temperatura: ");
-  Serial.println(temperatura);
+  Serial.print(temperatura);
+
+  if (ac->getAlreadyOn()) Serial.println(";   AC iniciou ligado.");
+  else Serial.println(";   AC iniciou desligado.");
+
   // Serial.print(" *C - Umidade: ");
   // Serial.print(umidade);
   Serial.print("Luminosidade atual: ");
       
-  //Lemos entao o sensor LDR e mapeamos seu valor de 0 a 100 %
-  
-
   //Finalizamos a linha impressa no Monitor Serial com a luminosidade em %
-  Serial.println(ldr.getCurrent());
-  Serial.print("Luminosidade base: ");
-  Serial.println(ldr.getBaseValue());
+  Serial.print(ldr.getCurrent());
+  Serial.print(";   Luminosidade base: ");
+  Serial.print(ldr.getBaseValue());
 
-  Serial.print("Luminosidade status: ");
+  Serial.print(";   Luminosidade status: ");
 
   if (ldr.getStatus()) {
       Serial.println("Ligado");
 
   } else Serial.println("Desligado");
+
+  Serial.println("");
 
 }
