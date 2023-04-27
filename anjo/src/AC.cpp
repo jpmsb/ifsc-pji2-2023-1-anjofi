@@ -1,6 +1,7 @@
 #include "AC.h"
 
-AC::AC(bool areadyOn, int pin) : sensor(pin){
+AC::AC(bool _alreadyOn, int pin) : sensor(pin){
+    this->alreadyOn = _alreadyOn;
 }
 
 void AC::getValues(){
@@ -11,6 +12,10 @@ void AC::getValues(){
 
 bool AC::getStatus(){
     return currentTemperature < previousTemperature;
+}
+
+bool AC::getAlreadyOn(){
+    return alreadyOn;
 }
 
 float AC::getCurrentTemperature(){

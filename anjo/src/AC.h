@@ -11,6 +11,8 @@ class AC {
 
        bool getStatus();
 
+       bool getAlreadyOn();
+
        float getCurrentTemperature();
 
        float getPreviousTemperature();
@@ -20,6 +22,7 @@ class AC {
        float initialTemperature = 0;
        float currentTemperature;
        float previousTemperature;
+       bool alreadyOn;
        Temperatura sensor;
 }; 
 
