@@ -15,6 +15,27 @@ public class User {
         this.listaDeDispositivos = new ArrayList<dispositivos>();
 
     }
+
+    public String getNome(){
+        return nome;
+    }
+
+    public ArrayList<dispositivos> getListaDeDispositivos() {
+        return this.listaDeDispositivos;
+    }
+
+    public void setListaDeDispositivos(ArrayList<dispositivos> listaDeDispositivos) {
+        this.listaDeDispositivos = listaDeDispositivos;
+    }
+
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+    
+  
+    
    
 
 

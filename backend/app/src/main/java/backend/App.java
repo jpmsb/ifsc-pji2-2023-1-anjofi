@@ -1,6 +1,7 @@
 package backend;
 import backend.UserManager;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -8,12 +9,22 @@ public class App {
 
     public static void main(String[] args) {
 
-    
+
     UserManager cliente = new UserManager();
-    cliente.adicionar();
-    
-    System.out.println(cliente.toString());
+    cliente.adicionar("ana", "admin123");
+    cliente.adicionar("filipe", "1234");
+    cliente.adicionar("ana", "admin123");
+    cliente.adicionar("ana", "admin123");
+
+
+
+    //System.out.println(cliente.getListaUsuarios());
+    cliente.getListaUsuarios();
     }
+
+}
+
+
 
     /*
     public static void main(String[] args) {
@@ -61,4 +72,4 @@ public class App {
 
     }
 }
-*/}
+*/
