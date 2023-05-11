@@ -1,16 +1,9 @@
 #include <Arduino.h>
-
-/************************************************
-* RoboCore - IoT DevKit - LoRaWAN   
-*
-* Aprendendo a utilizar o sensor de temperatura e
-* umidade do kit, em conjunto com o sensor de 
-* luminosidade e botao.
-***********************************************/
-
-//Inclusao da bilbioteca do sensor DHT11 
 #include "LDR.h"
 #include "AC.h"
+#include <PubSubClient.h>
+#include <WiFi.h>
+// #include <esp_wifi.h>
 
 //Declaracao das variaveis dos pinos dos sensores e botao
 const int pinoDHT = 12;
@@ -45,6 +38,38 @@ void setup() {
 
   if (digitalRead(pinoBotao) == LOW) pressionado = true;
   ac = new AC(pressionado);
+
+  // WiFi.scanNetworks will return the number of networks found
+  int n = WiFi.scanNetworks();
+  Serial.println("Procutando redes");
+  if (n == 0) {
+      Serial.println("sem redes");
+  } else {
+    Serial.print(n);
+    Serial.println(" encontrou redes");
+    for (int i = 0; i < n; ++i) {
+      // Print SSID and RSSI for each network found
+      Serial.print(i + 1);
+      Serial.print(": ");
+      Serial.print(WiFi.SSID(i));
+      Serial.print(" (");
+      Serial.print(WiFi.RSSI(i));
+      Serial.print(")");
+      Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
+      delay(10);
+    }
+  }
+
+  Serial.println("Conectando na rede WiFi");
+  WiFi.mode(WIFI_STA);
+  WiFi.begin("iPhone de JPMSB", "abcdefgh");
+
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print('.');
+    delay(1000);
+  }
+  
+  Serial.println(WiFi.localIP());
 }
 
 //AC ac(pressionado);
@@ -68,19 +93,20 @@ void loop() {
 
   // Serial.print(" *C - Umidade: ");
   // Serial.print(umidade);
-  Serial.print("Luminosidade atual: ");
+
+  // Por enquanto o LDR não será utilizado por conflito com o WiFi
+  // Serial.print("Luminosidade atual: ");
       
-  //Finalizamos a linha impressa no Monitor Serial com a luminosidade em %
-  Serial.print(ldr.getCurrent());
-  Serial.print(";   Luminosidade base: ");
-  Serial.print(ldr.getBaseValue());
+  // Serial.print(ldr.getCurrent());
+  // Serial.print(";   Luminosidade base: ");
+  // Serial.print(ldr.getBaseValue());
 
-  Serial.print(";   Luminosidade status: ");
+  // Serial.print(";   Luminosidade status: ");
 
-  if (ldr.getStatus()) {
-      Serial.println("Ligado");
+  // if (ldr.getStatus()) {
+  //     Serial.println("Ligado");
 
-  } else Serial.println("Desligado");
+  // } else Serial.println("Desligado");
 
   Serial.println("");
 
