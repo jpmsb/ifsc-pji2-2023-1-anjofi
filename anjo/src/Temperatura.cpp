@@ -6,7 +6,7 @@ Temperatura::Temperatura(int pin) : dht(pin, DHT11){
 
 void Temperatura::measure(){
     previousValue = currentValue;
-    currentValue = dht.readTemperature();
+    currentValue = dht.readTemperature() * 0.79;
 }
 
 void Temperatura::measureBaseValue(){
