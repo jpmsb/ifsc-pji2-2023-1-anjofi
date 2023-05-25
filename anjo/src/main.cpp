@@ -18,7 +18,7 @@ int valorLDR = 0;
 bool pressionado = false;
 
 // Criando os objetos do sensor de luz e ar condicionado
-LDR ldr(15);
+// LDR ldr(15);
 AC *ac;
 
 // MQTT
@@ -43,7 +43,7 @@ void setup() {
   pinMode(pinoLDR, INPUT);
 
   delay(1000);
-  ldr.measureBaseValue();
+  // ldr.measureBaseValue();
 
   if (digitalRead(pinoBotao) == LOW) pressionado = true;
   ac = new AC(pressionado);
@@ -73,7 +73,7 @@ void setup() {
 
   Serial.print("Conectando na rede WiFi");
   WiFi.mode(WIFI_STA);
-  WiFi.begin("SSID", "SENHA");
+  WiFi.begin("STE2023", "IFSCSTE2023");
 
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print('.');
