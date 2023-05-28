@@ -1,0 +1,63 @@
+openapi: '3.0.2'
+
+info:
+  title: API Agenda de Contatos
+  version: '1.0'
+
+servers:
+  - url: http://localhost:8080
+  
+paths:
+  /pessoas:
+    get: 
+      summary:
+      description: Documento JSON com id, nome e email de todas pessoas
+      requestBody:
+      operationId:
+      responses: 
+        '200':
+          description: OK
+    
+    post:
+      summary:
+      requestBody:
+      operationId: 
+      responses:
+        '201':
+          description: Documento JSON com nome e email do novo contato
+  
+  /pessoas/:
+    get:
+      summary:
+      requestBody:
+      operationId: 
+      responses: 
+        '200':
+        '400':
+          description: Documento JSON com id, nome e email de todas pessoas
+    put:
+      summary:
+      requestBody:
+      operationId: 
+      responses: 
+        '200':
+        '400':
+          description: Documento JSON com id, nome e email de todas pessoas
+    delete:
+      summary:
+      requestBody:
+      operationId: 
+      responses: 
+        '200':
+        '404':
+          description: Documento JSON com id, nome e email de todas pessoas
+
+components:
+  parameters:
+  schemas:
+    board:
+      type: array
+      maxItems: 3
+      minItems: 3
+      items:
+        type: array
