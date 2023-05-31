@@ -37,15 +37,16 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public Usuario obterUsuario(@PathVariable long id){
-        
+        Operacao.validarSenha(id);
         throw new UsuarioNaoEncontradoException(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Usuario adicionarUsuario(@RequestBody Usuario p){
-        Usuario n = new Usuario(contador.incrementAndGet(), p.getNome(), p.getSobrenome(), p.getCpf(), p.getTelefone(), p.getEmail(), p.getSenha());
+        Usuario n = new Usuario(contador.incrementAndGet(), p.getNome(), p.getEmail(), p.getSenha());
         Operacao.adicionarUsuario(n);
+        //System.out.println("chegou JOAOOOO");
         return n;
     }
 

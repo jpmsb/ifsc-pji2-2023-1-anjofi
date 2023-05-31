@@ -32,14 +32,11 @@ public class Operacao {
                 String[] dadosCriptografados = linha.split(";");
                 long id = Integer.parseInt(dadosCriptografados[0]);
                 String nome = dadosCriptografados[1];
-                String sobrenome = dadosCriptografados[2];
-                String cpf = dadosCriptografados[3];
-                String telefone = dadosCriptografados[4];
-                String email = dadosCriptografados[5];
-                String senha = dadosCriptografados[6];
+                String email = dadosCriptografados[2];
+                String senha = dadosCriptografados[3];
                 int a = (int)id;
 
-                Usuario usuario = new Usuario(id, nome, sobrenome, cpf, telefone, email, senha);
+                Usuario usuario = new Usuario(id, nome, email, senha);
                 listaUsuarios.put(a, usuario);
             }
         } catch (IOException e) {
@@ -66,9 +63,6 @@ public class Operacao {
 
                 String linha = id.toString() + ";" + 
                         usuario.getNome() + ";" +
-                        usuario.getSobrenome() + ";" + 
-                        usuario.getCpf() + ";" +
-                        usuario.getTelefone() + ";" + 
                         usuario.getEmail() + ";" +
                         usuario.getSenha();
                 writer.write(linha);
@@ -77,6 +71,18 @@ public class Operacao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static boolean validarSenha(long id){
+        
+        if(listaUsuarios.containsKey(id)){
+
+            return true;
+        }else{
+            return false;
+        }
+        
     }
    
 }

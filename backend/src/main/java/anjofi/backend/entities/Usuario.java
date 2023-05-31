@@ -5,9 +5,6 @@ import java.security.*;
 public class Usuario {
     private long id;
     private String nome;
-    private String sobrenome;
-    private String cpf;
-    private String telefone;
     private String email;
     private String senha;
 
@@ -15,12 +12,9 @@ public class Usuario {
 
     }
 
-    public Usuario(long id, String nome, String sobrenome, String cpf, String telefone, String email, String senha) {
+    public Usuario(long id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.cpf = criptografar(cpf);
-        this.telefone = criptografar(telefone);
         this.email = criptografar(email);
         this.senha = criptografar(senha);
     }
@@ -31,18 +25,6 @@ public class Usuario {
 
     public String getNome() {
         return nome;
-    }
-
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getTelefone() {
-        return telefone;
     }
 
     public String getEmail() {
@@ -72,5 +54,9 @@ public class Usuario {
     public static String descriptografar(String textoCriptografado) {
         return textoCriptografado;
     }
+
+
+
+
 }
 

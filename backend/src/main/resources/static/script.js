@@ -5,7 +5,7 @@ const Isenha = document.querySelector(".senha");
 
 
 function cadastrar() {
-    fetch("http://191.36.15.51:8080/usuarios", {
+    fetch("http://191.36.15.33:8080/usuarios", {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
