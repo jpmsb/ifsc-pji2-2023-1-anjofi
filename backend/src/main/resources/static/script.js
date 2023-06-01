@@ -44,14 +44,14 @@ function cadastrar() {
 
 
 function fazerLogin() {
-  fetch("http://localhost:8080/usuarios/login", {
+  fetch("http://localhost:8080/login", {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     method: "POST",
     body: JSON.stringify({
-      nome: Inome.value,
+      id: Inome.value,
       senha: Isenha.value
     })
   })

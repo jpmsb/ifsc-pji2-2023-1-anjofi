@@ -1,4 +1,4 @@
-package engtelecom.pji;
+package anjofi.backend;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.internal.ClientComms;
 
-public class AnjofiMqtt {
+public class AnjofiMqtt<MqttClient> {
     private final String TOPIC = "AnJoFi/";
     private final String TEMPERATURE_TOPIC = "temperatura";
 

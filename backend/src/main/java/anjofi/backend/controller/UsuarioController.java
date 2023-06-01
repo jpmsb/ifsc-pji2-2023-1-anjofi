@@ -1,7 +1,9 @@
 package anjofi.backend.controller;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicLong;
+
+import javax.sound.midi.SysexMessage;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import anjofi.backend.entities.Usuario;
+import anjofi.backend.exceptions.UsuarioExistenteException;
 import anjofi.backend.exceptions.UsuarioNaoEncontradoException;
 
 
@@ -25,40 +28,39 @@ import anjofi.backend.exceptions.UsuarioNaoEncontradoException;
 
 public class UsuarioController {
     
-    //private final HashMap<Integer, Usuario> agenda = new HashMap();
-    private final AtomicLong contador = new AtomicLong();
-
-
+    
     @GetMapping
-    public HashMap<Integer, Usuario> exibirUsuarios(){
+    public HashMap<String, Usuario> exibirUsuarios(){
        return Operacao.exibirUsuarios();
     }
         
-
     @GetMapping("/{id}")
-    public Usuario obterUsuario(@PathVariable long id){
-        Operacao.validarSenha(id);
-        throw new UsuarioNaoEncontradoException(id);
+    public Usuario obterUsuario(@PathVariable String id){
+        return Operacao.exibirUsuario(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Usuario adicionarUsuario(@RequestBody Usuario p){
-        Usuario n = new Usuario(contador.incrementAndGet(), p.getNome(), p.getEmail(), p.getSenha());
-        Operacao.adicionarUsuario(n);
-        //System.out.println("chegou JOAOOOO");
-        return n;
+    public HttpStatus adicionarUsuario(@RequestBody Usuario p){
+        Usuario n = new Usuario(p.getId(), p.getNome(), p.getEmail(), p.getSenha());
+
+        if(Operacao.adicionarUsuario(n)== true){
+            return HttpStatus.OK;
+        }else{
+            return HttpStatus.I_AM_A_TEAPOT;
+        }
+       
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizarUsuario(@RequestBody Usuario usuario, @PathVariable long id){
-        int a = (int)id;
+    public Usuario atualizarUsuario(@RequestBody Usuario usuario, @PathVariable String id){
         return usuario;
     }
 
     @DeleteMapping("/{id}")
-    public void excluirUsuario(@PathVariable long id){
-    
+    public String excluirUsuario(@PathVariable String id){
+        return Operacao.excluirUsuario(id);
+        
     }
 
     @ControllerAdvice
@@ -67,9 +69,22 @@ public class UsuarioController {
         @ExceptionHandler(UsuarioNaoEncontradoException.class)
         
         @ResponseStatus(HttpStatus.NOT_FOUND)
-        String pessoaNaoEncontrado(UsuarioNaoEncontradoException p){
+        String usuarioNaoEncontrado(UsuarioNaoEncontradoException p){
             return p.getMessage();
         }
     }
+    @ControllerAdvice
+    class UsuarioExistente{
+        @ResponseBody
+        @ExceptionHandler(UsuarioExistenteException.class)
+
+        @ResponseStatus(HttpStatus.NOT_FOUND)
+        String usuarioExistente(UsuarioExistenteException id){
+            return id.getMessage();
+        }
+
+
+    }
+    
 
 }

@@ -3,7 +3,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.*;
 
 public class Usuario {
-    private long id;
+    private String id;
     private String nome;
     private String email;
     private String senha;
@@ -12,14 +12,14 @@ public class Usuario {
 
     }
 
-    public Usuario(long id, String nome, String email, String senha) {
+    public Usuario(String id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = criptografar(email);
         this.senha = criptografar(senha);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -54,9 +54,6 @@ public class Usuario {
     public static String descriptografar(String textoCriptografado) {
         return textoCriptografado;
     }
-
-
-
 
 }
 
