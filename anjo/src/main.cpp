@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include "LDR.h"
 #include "AC.h"
-// #include <ArduinoMqttClient.h>
-// #include <WiFi.h>
-// #include <esp_wifi.h>
 #include <string.h>
 #include "AnjofiMqtt.h"
 #include "AnjofiWifi.h"
