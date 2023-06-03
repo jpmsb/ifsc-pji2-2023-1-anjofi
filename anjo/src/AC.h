@@ -1,7 +1,7 @@
 #ifndef _AC_H_
 #define _AC_H_
 
-#include "Temperatura.h"
+#include "TemperatureHumidity.h"
 
 class AC {
     public:
@@ -17,13 +17,16 @@ class AC {
 
        float getPreviousTemperature();
 
+       float getCurrentHumidity();
+
     private:
        float threshold = 1;
        float initialTemperature = 0;
        float currentTemperature;
        float previousTemperature;
+       float currentHumidity;
        bool alreadyOn;
-       Temperatura sensor;
+       TemperatureHumidity sensor;
 }; 
 
 #endif
