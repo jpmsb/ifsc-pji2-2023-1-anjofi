@@ -5,9 +5,10 @@ AC::AC(bool _alreadyOn, int pin) : sensor(pin){
 }
 
 void AC::getValues(){
-    previousTemperature = sensor.getCurrent();
+    previousTemperature = sensor.getCurrentTemperature();
     sensor.measure();
-    currentTemperature = sensor.getCurrent();
+    currentTemperature = sensor.getCurrentTemperature();
+    currentHumidity = sensor.getCurrentHumidity();
 }
 
 bool AC::getStatus(){
@@ -24,4 +25,8 @@ float AC::getCurrentTemperature(){
 
 float AC::getPreviousTemperature(){
     return previousTemperature;
+}
+
+float AC::getCurrentHumidity(){
+    return currentHumidity;
 }
