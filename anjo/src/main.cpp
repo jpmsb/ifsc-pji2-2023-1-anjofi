@@ -1,10 +1,12 @@
 #include <Arduino.h>
 #include "LDR.h"
 #include "AC.h"
-#include <ArduinoMqttClient.h>
-// #include <PubSubClient.h>
-#include <WiFi.h>
+// #include <ArduinoMqttClient.h>
+// #include <WiFi.h>
 // #include <esp_wifi.h>
+#include <string.h>
+#include "AnjofiMqtt.h"
+#include "AnjofiWifi.h"
 
 //Declaracao das variaveis dos pinos dos sensores e botao
 const int pinoDHT = 12;
@@ -18,19 +20,30 @@ int valorLDR = 0;
 bool pressionado = false;
 
 // Criando os objetos do sensor de luz e ar condicionado
-// LDR ldr(15);
+LDR ldr(15);
 AC *ac;
 
-// MQTT
-WiFiClient wifiClient;
-MqttClient mqttClient(wifiClient);
-
 //Declaracao do servidor e da sua porta
-const char broker[] = "test.mosquitto.org";
-int port = 1883;
+char brokerServer[] = "jpmsb.ddns.net";
+int brokerPort = 51439;
+char brokerUser[] = "anjofi";
+char brokerPass[] = "pji29006";
+char ID[] = "0cdf44f8";
+char SSID[] = "Impressora";
+char PASS[] = "debian8.0";
+char jsonMessage[128];
+char lightStatus[6];
+int lightBaseValue;
+int lightCurrentValue;
+float temperature;
+float humidity;
+char acStatus[6];
+
+AnjofiMqtt mqtt(brokerServer, brokerPort, brokerUser, brokerPass);
+AnjofiWifi wifi(SSID, PASS);
 
 // Tópico
-char topic[] = "AnJoFi/temperatura";
+char topic[16] = "AnJoFi/xxxxxxxx";
 
 void setup() {
   //Abrimos uma comunicacao serial para imprimir dados no Monitor Serial
@@ -43,99 +56,83 @@ void setup() {
   pinMode(pinoLDR, INPUT);
 
   delay(1000);
-  // ldr.measureBaseValue();
+  ldr.measureBaseValue();
 
   if (digitalRead(pinoBotao) == LOW) pressionado = true;
   ac = new AC(pressionado);
 
-  // Procurando e listando as redes sem fio
-  int n = WiFi.scanNetworks();
-  Serial.println("Procurando redes");
-  if (n == 0) {
-      Serial.println("Nenhuma rede encontrada.");
-  } else {
-    Serial.print("Encontrou ");
-    Serial.print(n);
-    Serial.print(" redes: ");
-    for (int i = 0; i < n; ++i) {
-      // Mostrar o SSID e RSSI de cada rede encontrada
-      if (i) Serial.print("                   ");
-      Serial.print(i + 1);
-      Serial.print(": ");
-      Serial.print(WiFi.SSID(i));
-      Serial.print(" (");
-      Serial.print(WiFi.RSSI(i));
-      Serial.print(")");
-      Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
-      delay(10);
-    }
-  }
-
-  Serial.print("Conectando na rede WiFi");
-  WiFi.mode(WIFI_STA);
-  WiFi.begin("STE2023", "IFSCSTE2023");
-
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print('.');
-    delay(1000);
-  }
- 
-  Serial.println(""); 
-  Serial.println(WiFi.localIP());
-
-  // Configuração inicial do MQTT
-  Serial.print("Conectando-se ao broker: ");
-  Serial.println(broker);
-  
-  if (! mqttClient.connect(broker, port)) {
-    Serial.print("Erro ao conectar-se no broker! Erro = ");
-    Serial.println(mqttClient.connectError());
-
-    while (1);
-  }
-
-  Serial.println("Conectou-se ao broker");
+  memcpy(topic+7, ID, 8);
+  Serial.println(topic);
 }
 
 //AC ac(pressionado);
 
 void loop() {
-  mqttClient.poll();
-
-  // Obtendo a temperatura
+  // Getting AC parameters
   ac->getValues();
-  float temperatura = ac->getCurrentTemperature();
-  // float umidade = dht.readHumidity();
+  temperature = ac->getCurrentTemperature();
+  humidity = ac->getCurrentHumidity();
+
+  if (ac->getStatus()) strcpy(acStatus, "true");
+  else strcpy(acStatus, "false");
       
   // Exibindo a temperatura
   Serial.print("Temperatura: ");
-  Serial.print(temperatura);
+  Serial.print(temperature);
 
   if (ac->getAlreadyOn()) Serial.println(";   AC iniciou ligado.");
   else Serial.println(";   AC iniciou desligado.");
 
   // ------------------------------------------------------------- //
-  // Por enquanto o LDR não será utilizado por conflito com o WiFi
-  // Serial.print("Luminosidade atual: ");
-      
-  // Serial.print(ldr.getCurrent());
-  // Serial.print(";   Luminosidade base: ");
-  // Serial.print(ldr.getBaseValue());
+  lightBaseValue = ldr.getBaseValue();
+  lightCurrentValue = ldr.getCurrent();
 
-  // Serial.print(";   Luminosidade status: ");
+  Serial.print("Luminosidade atual: ");
+   
+  Serial.print(lightCurrentValue);
+  Serial.print(";   Luminosidade base: ");
+  Serial.print(lightBaseValue);
 
-  // if (ldr.getStatus()) {
-  //     Serial.println("Ligado");
+  Serial.print(";   Luminosidade status: ");
 
-  // } else Serial.println("Desligado");
+  if (ldr.getStatus()) {
+      Serial.println("Ligado");
+      strcpy(lightStatus, "true");
+
+  } else {
+      Serial.println("Desligado");
+      strcpy(lightStatus, "false");
+  }
   // ------------------------------------------------------------- //
 
-  Serial.println("");
-  
-  // Enviando mensagem pelo MQTT
-  mqttClient.beginMessage(topic);
-  mqttClient.print(temperatura);
-  mqttClient.endMessage();
+  sprintf(jsonMessage, "{temperature:%f, humidity:%f, acStatus:%s, lightStatus:%s, lightCurrentValue:%d, lightBaseValue:%d}", temperature, humidity, acStatus, lightStatus, lightCurrentValue, lightBaseValue);
 
+  Serial.println("");
+ 
+  // Conecting to WiFi
+  Serial.print("Conectando na rede WiFi");
+  wifi.connect();
+
+  while (! wifi.status()){
+      Serial.print(".");
+      delay(1000);
+  }
+
+  Serial.println("");
+  Serial.println(WiFi.localIP());
+
+  delay(2000);
+
+  // Connecting to MQTT server
+  if (! mqtt.connect()) {
+      Serial.print("Erro ao conectar-se no broker! Erro = ");
+      Serial.println(mqtt.connectError());
+  }
+
+  // Sending data to MQTT server
+  mqtt.sendMessage(topic, jsonMessage);
+
+  delay(1000);
+  wifi.disconnect();
   delay(2000);
 }
