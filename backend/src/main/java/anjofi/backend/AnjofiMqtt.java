@@ -1,26 +1,26 @@
 package anjofi.backend;
 
-import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.internal.ClientComms;
 
-public class AnjofiMqtt<MqttClient> {
-    private final String TOPIC = "AnJoFi/";
-    private final String TEMPERATURE_TOPIC = "temperatura";
-
-    private float temperature;
-    private boolean acStatus;
-    private float currentLightIntensity;
-    private float baseLightIntensity;
-    private boolean lightStatus;
+public class AnjofiMqtt {
+    private String server;
+    private int port;
+    private String identifier;
+    private String lastReceivedData;
+    private String lastDevice;
+    private String topicAndMessage;
     private MqttClient client;
 
     public AnjofiMqtt(String server, int port, String identifier) throws MqttException {
+        this.server = server;
+        this.port = port;
+        this.identifier = identifier;
+        
         client = new MqttClient(server + ":" + port, identifier);
 
         MqttConnectOptions options = new MqttConnectOptions();
@@ -28,7 +28,6 @@ public class AnjofiMqtt<MqttClient> {
         options.setCleanSession(true);
         options.setConnectionTimeout(20);
         client.connect(options);
-
 
     }
 
@@ -44,39 +43,36 @@ public class AnjofiMqtt<MqttClient> {
         client.connect(options);
     }
 
-    public float getTemperature() throws MqttException {
-        client.subscribe(TOPIC + TEMPERATURE_TOPIC);
-        client.setCallback(new MqttCallback() {
-            public void messageArrived(String topic, MqttMessage message){
-                temperature = Float.parseFloat(new String(message.getPayload()));
-            }
+    public void listen(String topic) throws MqttException {
+        while (lastReceivedData == null){
+            client.subscribe(topic);
+            client.setCallback(new MqttCallback() {
+                public void messageArrived(String topic, MqttMessage message){
+                    lastReceivedData = new String(message.getPayload());
+                    lastDevice = topic;
+                    topicAndMessage = topic + ":" + lastReceivedData;
+                }
 
-            @Override
-            public void connectionLost(Throwable cause) {
-            }
+                @Override
+                public void connectionLost(Throwable cause) {
+                }
 
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-            }
-        });
-        return temperature;
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                }
+            });
+        }
     }
 
-    public boolean isAcStatus() {
-        return acStatus;
+    public String getLastReceivedData(){
+        return lastReceivedData;
     }
 
-    public float getCurrentLightIntensity() {
-        return currentLightIntensity;
+    public String getLastDevice(){
+        return lastDevice;
     }
 
-    public float getBaseLightIntensity() {
-        return baseLightIntensity;
+    public String getTopicAndMessage(){
+        return topicAndMessage;
     }
-
-    public boolean isLightStatus() {
-        return lightStatus;
-    }
-
-    
 }
