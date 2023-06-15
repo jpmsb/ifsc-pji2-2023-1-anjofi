@@ -1,6 +1,8 @@
 package anjofi.backend.controller;
 
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -8,8 +10,6 @@ import anjofi.backend.entities.Usuario;
 
 public class Operacao {
 
-
-    
     static String nomeArquivo = "arquivo.txt";
     static HashMap<String, Usuario> listaUsuarios = new HashMap<>();
     static HashMap<String, Usuario> listaUsuariosNova = new HashMap<>();
@@ -62,7 +62,6 @@ public class Operacao {
     }
 
 
-
     // Função para salvar os usuários no arquivo
     private static void salvarUsuariosNoArquivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
@@ -81,12 +80,15 @@ public class Operacao {
     }
 
 
-    public static boolean validarSenha(String id){
-        
-        if(listaUsuarios.containsKey(id)){
-
+    public static boolean validarSenha(String id, String senha){
+        String auxSenha = criptografar(senha);
+        Usuario aux = exibirUsuario(id);
+        if(aux.getSenha().equals(auxSenha)){
+            System.out.println("senha correta");
             return true;
         }else{
+            System.out.println("senha incorreta");
+
             return false;
         }
         
@@ -130,5 +132,19 @@ public class Operacao {
         }salvarUsuariosNoArquivo();
 
     }
-   
+    public static String criptografar(String texto) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = md.digest(texto.getBytes("UTF-8"));
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

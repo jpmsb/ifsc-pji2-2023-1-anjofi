@@ -55,5 +55,9 @@ public class Usuario {
         return textoCriptografado;
     }
 
+    public boolean validarSenha(String senha2) {
+        return false;
+    }
+
 }
 

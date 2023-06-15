@@ -2,8 +2,6 @@ package anjofi.backend.controller;
 
 import java.util.HashMap;
 
-import javax.sound.midi.SysexMessage;
-
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +25,6 @@ import anjofi.backend.exceptions.UsuarioNaoEncontradoException;
 @RequestMapping("/usuarios")
 
 public class UsuarioController {
-    
     
     @GetMapping
     public HashMap<String, Usuario> exibirUsuarios(){
@@ -73,6 +70,7 @@ public class UsuarioController {
             return p.getMessage();
         }
     }
+    
     @ControllerAdvice
     class UsuarioExistente{
         @ResponseBody
@@ -82,9 +80,8 @@ public class UsuarioController {
         String usuarioExistente(UsuarioExistenteException id){
             return id.getMessage();
         }
-
-
     }
+    
     
 
 }
