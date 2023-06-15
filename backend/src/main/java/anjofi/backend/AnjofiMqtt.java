@@ -49,8 +49,9 @@ public class AnjofiMqtt {
             client.setCallback(new MqttCallback() {
                 public void messageArrived(String topic, MqttMessage message){
                     lastReceivedData = new String(message.getPayload());
-                    lastDevice = topic;
-                    topicAndMessage = topic + ":" + lastReceivedData;
+                    String[] deviceID = topic.split("/");
+                    lastDevice = deviceID[1];
+                    topicAndMessage = lastDevice + ":" + lastReceivedData;
                 }
 
                 @Override
