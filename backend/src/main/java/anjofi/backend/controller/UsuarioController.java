@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.http.HttpStatus;
+
+import anjofi.backend.AnjofiMqtt;
 import anjofi.backend.entities.Usuario;
 import anjofi.backend.exceptions.UsuarioExistenteException;
 import anjofi.backend.exceptions.UsuarioNaoEncontradoException;
+import jakarta.security.auth.message.AuthException;
 
 
 @RestController
@@ -27,7 +31,7 @@ import anjofi.backend.exceptions.UsuarioNaoEncontradoException;
 public class UsuarioController {
     
     @GetMapping
-    public HashMap<String, Usuario> exibirUsuarios(){
+    public HashMap<String, Usuario> exibirUsuarios() throws MqttException{
        return Operacao.exibirUsuarios();
     }
         
