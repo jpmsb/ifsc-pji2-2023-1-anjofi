@@ -44,25 +44,23 @@ public class AnjofiMqtt {
     }
 
     public void listen(String topic) throws MqttException {
-        while (lastReceivedData == null){
-            client.subscribe(topic);
-            client.setCallback(new MqttCallback() {
-                public void messageArrived(String topic, MqttMessage message){
-                    lastReceivedData = new String(message.getPayload());
-                    String[] deviceID = topic.split("/");
-                    lastDevice = deviceID[1];
-                    topicAndMessage = lastDevice + ":" + lastReceivedData;
-                }
+        client.subscribe(topic);
+        client.setCallback(new MqttCallback() {
+            public void messageArrived(String topic, MqttMessage message){
+                lastReceivedData = new String(message.getPayload());
+                String[] deviceID = topic.split("/");
+                lastDevice = deviceID[1];
+                topicAndMessage = lastDevice + ":" + lastReceivedData;
+            }
 
-                @Override
-                public void connectionLost(Throwable cause) {
-                }
+            @Override
+            public void connectionLost(Throwable cause) {
+            }
 
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken token) {
-                }
-            });
-        }
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+            }
+        });
     }
 
     public String getLastReceivedData(){
