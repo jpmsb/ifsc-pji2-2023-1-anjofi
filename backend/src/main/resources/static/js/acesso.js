@@ -1,17 +1,19 @@
 const formulario = document.querySelector("form");
+const Iid = document.querySelector(".id");
 const Inome = document.querySelector(".nome");
 const Iemail = document.querySelector(".email");
 const Isenha = document.querySelector(".senha");
 
 
 function cadastrar() {
-    fetch("http://191.36.15.33:8080/usuarios", {
+    fetch("http://localhost:8080/usuarios", {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       method: "POST",
       body: JSON.stringify({
+        id: Iid.value,
         nome: Inome.value,
         email: Iemail.value,
         senha: Isenha.value,
@@ -30,18 +32,12 @@ function cadastrar() {
   }
   
   function limpar() { 
+    Iid.value = "";
     Inome.value = "";
     Iemail.value = "";
     Isenha.value = "";
   }
   
-  formulario.addEventListener('submit', function (event) {
-    event.preventDefault();
-  
-    cadastrar();
-    limpar();
-  });
-
 
 function fazerLogin() {
   fetch("http://localhost:8080/login", {
@@ -51,37 +47,30 @@ function fazerLogin() {
     },
     method: "POST",
     body: JSON.stringify({
-      id: Inome.value,
+      id: Iid.value,
       senha: Isenha.value
     })
   })
   .then(function (res) {
+
+    console.log(res.status);
     if (res.status === 200) {
       console.log("Login bem-sucedido");
-      window.location.href = "home_usuario.html"; // Redireciona para outra_pagina.html após o login bem-sucedido
+      window.location.href = "./acesso-restrito/home_usuario.html"; // Redireciona para outra_pagina.html após o login bem-sucedido
 
-      // Faça o que for necessário após o login bem-sucedido, como redirecionar para outra página
     } else if (res.status === 401) {
       console.log("Credenciais inválidas");
-      // Exiba uma mensagem de erro informando que as credenciais são inválidas
     } else {
       console.log("Erro ao fazer login");
-      // Exiba uma mensagem de erro genérica
     }
   })
   .catch(function (error) {
     console.log("Erro ao fazer login", error);
-    // Exiba uma mensagem de erro informando que ocorreu um erro ao fazer login
   });
 };
 
-formulario.addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  fazerLogin();
-});
 
 document.getElementById("criarContaBtn").addEventListener("click", function() {
-    window.location.href = "index.html"; 
+    window.location.href = "cadastro.html"; 
   });
   
