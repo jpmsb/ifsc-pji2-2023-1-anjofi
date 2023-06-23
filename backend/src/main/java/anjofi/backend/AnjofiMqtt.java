@@ -51,7 +51,6 @@ public class AnjofiMqtt {
                 String[] deviceID = topic.split("/");
                 lastDevice = deviceID[1];
                 topicAndMessage = lastDevice + ":" + lastReceivedData;
-                System.out.println(topicAndMessage);
             }
 
             @Override
