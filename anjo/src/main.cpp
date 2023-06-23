@@ -21,13 +21,13 @@ LDR ldr(15);
 AC *ac;
 
 //Declaracao do servidor e da sua porta
-char brokerServer[] = "jpmsb.ddns.net";
-int brokerPort = 51439;
-char brokerUser[] = "anjofi";
-char brokerPass[] = "pji29006";
-char ID[] = "0cdf44f8";
-char SSID[] = "STE2023";
-char PASS[] = "IFSCSTE2023";
+char brokerServer[] = BROKER_SERVER;
+int brokerPort = BROKER_PORT;
+char brokerUser[] = BROKER_USER;
+char brokerPass[] = BROKER_PASS;
+char ID[] = DEVICE_ID;
+char SSID[] = WIFI_SSID;
+char PASS[] = WIFI_PASS;
 char jsonMessage[128];
 char lightStatus[6];
 int lightBaseValue;
@@ -60,9 +60,8 @@ void setup() {
 
   memcpy(topic+7, ID, 8);
   Serial.println(topic);
-}
 
-//AC ac(pressionado);
+}
 
 void loop() {
   // Getting AC parameters
