@@ -64,8 +64,8 @@ function fazerLogin() {
       console.log("Erro ao fazer login");
     }
   })
-  .catch(function (error) {
-    console.log("Erro ao fazer login", error);
+  .catch(function (res) {
+    console.log(res);
   });
 };
 

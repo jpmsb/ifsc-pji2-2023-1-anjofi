@@ -21,26 +21,28 @@ public class LoginController {
     @PostMapping()
     public HttpStatus login(@RequestBody Usuario p){
         
-        Usuario aux = Operacao.exibirUsuario(p.getId());
-        System.out.println(aux.getId());       
+        // Usuario aux = Operacao.exibirUsuario(p.getId());
+        // System.out.println(aux.getId());   
+        return HttpStatus.OK;
+    
         
 
-        if(!aux.getId().equals(p.getId())||aux.getId().isEmpty()){
-            return HttpStatus.I_AM_A_TEAPOT;
-        }else{
-            String auxSenha = criptografar(p.getSenha());
-            System.out.println(auxSenha);
-            System.out.println(aux.getSenha());
-            if(aux.getSenha().equals(auxSenha)){
-                System.out.println("acertou miseravi");
+        // if(!aux.getId().equals(p.getId())||aux.getId().isEmpty()){
+        //     return HttpStatus.I_AM_A_TEAPOT;
+        // }else{
+        //     String auxSenha = criptografar(p.getSenha());
+        //     System.out.println(auxSenha);
+        //     System.out.println(aux.getSenha());
+        //     if(aux.getSenha().equals(auxSenha)){
+        //         System.out.println("acertou miseravi");
                 
-                 return HttpStatus.OK;
-            }else{
-                System.out.println("senha inválida, boca moleeee");
-                return HttpStatus.I_AM_A_TEAPOT;
+        //          return HttpStatus.OK;
+        //     }else{
+        //         System.out.println("senha inválida, boca moleeee");
+        //         return HttpStatus.I_AM_A_TEAPOT;
 
-            }
-        }
+        //     }
+        // }
        
     }
 
