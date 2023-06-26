@@ -28,7 +28,7 @@ char brokerPass[] = BROKER_PASS;
 char ID[] = DEVICE_ID;
 char SSID[] = WIFI_SSID;
 char PASS[] = WIFI_PASS;
-char jsonMessage[128];
+char jsonMessage[256];
 char lightStatus[6];
 int lightBaseValue;
 int lightCurrentValue;
@@ -101,7 +101,7 @@ void loop() {
   }
   // ------------------------------------------------------------- //
 
-  sprintf(jsonMessage, "{temperature:%f, humidity:%f, acStatus:%s, lightStatus:%s, lightCurrentValue:%d, lightBaseValue:%d}", temperature, humidity, acStatus, lightStatus, lightCurrentValue, lightBaseValue);
+  sprintf(jsonMessage, "{\"temperature\":\"%f\", \"humidity\":\"%f\", \"acStatus\":\"%s\", \"lightStatus\":\"%s\", \"lightCurrentValue\":\"%d\", \"lightBaseValue\":\"%d\"}", temperature, humidity, acStatus, lightStatus, lightCurrentValue, lightBaseValue);
 
   Serial.println("");
  
