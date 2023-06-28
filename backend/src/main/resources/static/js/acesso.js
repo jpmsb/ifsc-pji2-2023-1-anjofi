@@ -67,7 +67,7 @@ function cadastrar() {
         // Selecionar o elemento HTML correspondente ao campo de login
         var erroLogin = document.getElementById("erro-login");
         // Exibir a mensagem de erro no campo
-        erroLogin.innerHTML = "Erro ao fazer login. Por favor, tente novamente mais tarde.";
+        erroLogin.innerHTML = "Erro ao fazer login. Por favor, tente novamente";
       }
     })
     .catch(function (res) {
@@ -75,7 +75,7 @@ function cadastrar() {
       // Selecionar o elemento HTML correspondente ao campo de login
       var erroLogin = document.getElementById("erro-login");
       // Exibir a mensagem de erro no campo
-      erroLogin.innerHTML = "Erro ao fazer login. Por favor, verifique sua conexão de internet.";
+      erroLogin.innerHTML = "Erro ao fazer login. Por favor, tente novamente.";
     });
   };
   
