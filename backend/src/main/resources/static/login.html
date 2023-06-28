@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,13 +29,13 @@
             <input type="password" class="senha" name="senha" placeholder="Senha">
             <!-- <button onclick="fazerLogin()" type="submit" value="enviar-cadastro" id="btn-login">Login</button> -->
         </form>
- 
-   
 
-    <button onclick="fazerLogin()" type="submit" value="Entrar" id="btn-login"> Login </button>
+        <button onclick="fazerLogin()" type="button" value="Entrar" id="btn-login">Login</button>
 
-    <p>Ainda não possui uma conta? <br> Cadastre agora mesmo!</p>
-    <button id="criarContaBtn">Criar Conta</button>
+        <p>Ainda não possui uma conta?<br>Cadastre agora mesmo!</p>
+        <button id="criarContaBtn">Criar Conta</button>
+
+        <div id="erro-login"></div>
     </div>
 
     <div class="container">
@@ -43,5 +44,6 @@
         </div>
     </div>
 
- </body>
+</body>
+
 </html>

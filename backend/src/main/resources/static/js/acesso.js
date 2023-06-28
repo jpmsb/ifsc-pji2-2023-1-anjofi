@@ -39,42 +39,46 @@ function cadastrar() {
   }
   
 
-function fazerLogin() {
-  fetch("http://localhost:8080/login", {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    method: "POST",
-    body: JSON.stringify({
-      id: Iid.value,
-      senha: Isenha.value
+  function fazerLogin() {
+    fetch("http://localhost:8080/login", {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({
+        id: Iid.value,
+        senha: Isenha.value
+      })
     })
-  })
-  .then(function (res) {
-
-    console.log(res.status);
-    if (res.status === 200) {
-      console.log("Login bem-sucedido");
-      
-      // res.json().then(function (data) {
-      //   // Armazene o token de autenticação no lado do cliente (por exemplo, em um cookie)
-      //   document.cookie = "token=" + data.token + "; path=/";
-      //   window.location.href = "./acesso-restrito/home_usuario.html"; 
-      // });
-
-      window.location.href = "./acesso-restrito/home_usuario.html"; 
-
-    } else if (res.status === 401) {
-      console.log("Credenciais inválidas");
-    } else {
-      console.log("Erro ao fazer login");
-    }
-  })
-  .catch(function (res) {
-    console.log(res);
-  });
-};
+    .then(function (res) {
+      console.log(res.status);
+      if (res.status === 200) {
+        console.log("Login bem-sucedido");
+        window.location.href = "./acesso-restrito/home_usuario.html";
+      } else if (res.status === 401) {
+        console.log("Credenciais inválidas");
+        // Selecionar o elemento HTML correspondente ao campo de login
+        var erroLogin = document.getElementById("erro-login");
+        // Exibir a mensagem de erro no campo
+        erroLogin.innerHTML = "Erro de login: Credenciais inválidas.";
+      } else {
+        console.log("Erro ao fazer login");
+        // Selecionar o elemento HTML correspondente ao campo de login
+        var erroLogin = document.getElementById("erro-login");
+        // Exibir a mensagem de erro no campo
+        erroLogin.innerHTML = "Erro ao fazer login. Por favor, tente novamente mais tarde.";
+      }
+    })
+    .catch(function (res) {
+      console.log(res);
+      // Selecionar o elemento HTML correspondente ao campo de login
+      var erroLogin = document.getElementById("erro-login");
+      // Exibir a mensagem de erro no campo
+      erroLogin.innerHTML = "Erro ao fazer login. Por favor, verifique sua conexão de internet.";
+    });
+  };
+  
 
 
 

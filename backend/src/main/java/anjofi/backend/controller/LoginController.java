@@ -22,57 +22,18 @@ public class LoginController {
     
     @PostMapping()
     public ResponseEntity<Void> login(@RequestBody Usuario p){
-
-                 
-        // Operacao.exibirUsuario(p.getId());
-        System.out.println(Operacao.exibirUsuario(p.getId()).getId());
-        System.out.println(Operacao.exibirUsuario(p.getId()).getNome());
-        System.out.println(Operacao.exibirUsuario(p.getId()).getEmail());
-        System.out.println(Operacao.exibirUsuario(p.getId()).getSenha());
-        System.out.println(p.getId());
-        System.out.println(p.getSenha());
-        System.out.println(Operacao.exibirUsuario(p.getId()).getSenha());
-        System.out.println("senha crip "+criptografar(criptografar(p.getSenha())));
-        System.out.println("senha or crip ent " + Operacao.exibirUsuario(p.getSenha()));
-
-    //     return ResponseEntity.ok().build();  
-    // } 
-
-        System.out.println(Operacao.exibirUsuario(p.getId()).getId().equals(p.getId()));
-        System.out.println(Operacao.exibirUsuario(p.getId()).getId().isEmpty());
-   
-        
+              
 
         if((!Operacao.exibirUsuario(p.getId()).getId().equals(p.getId())|| !Operacao.exibirUsuario(p.getId()).getId().isEmpty()) &&
         criptografar(criptografar(p.getSenha())).equals(Operacao.exibirUsuario(p.getId()).getSenha())){
             
-            System.out.println("estouuu");
-            return ResponseEntity.ok().build();   
+             return ResponseEntity.ok().build();   
         }
 
         else{
             return ResponseEntity.notFound().build();
         }
-
     }
-
-        //     return HttpStatus.I_AM_A_TEAPOT;
-        // }else{
-        //     String auxSenha = criptografar(p.getSenha());
-        //     System.out.println(auxSenha);
-        //     System.out.println(aux.getSenha());
-        //     if(aux.getSenha().equals(auxSenha)){
-        //         System.out.println("acertou miseravi");
-                
-        //          return HttpStatus.OK;
-        //     }else{
-        //         System.out.println("senha inválida, boca moleeee");
-        //         return HttpStatus.I_AM_A_TEAPOT;
-
-        //     }
-        // }
-       
-    // }
 
 public static String criptografar(String texto) {
         try {

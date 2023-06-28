@@ -43,10 +43,6 @@ public class Operacao {
                 String nome = dadosCriptografados[1];
                 String email = dadosCriptografados[2];
                 String senha = dadosCriptografados[3];
-                // System.out.println("id "+id);
-                // System.out.println(nome);
-                // System.out.println(email);
-                // System.out.println("senha orig crip "+ senha);
 
                 Usuario usuario = new Usuario(id, nome, email, senha);
 
