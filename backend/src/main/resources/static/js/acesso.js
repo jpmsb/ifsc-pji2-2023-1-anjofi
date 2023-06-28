@@ -56,7 +56,14 @@ function fazerLogin() {
     console.log(res.status);
     if (res.status === 200) {
       console.log("Login bem-sucedido");
-      window.location.href = "./acesso-restrito/home_usuario.html"; // Redireciona para outra_pagina.html após o login bem-sucedido
+      
+      // res.json().then(function (data) {
+      //   // Armazene o token de autenticação no lado do cliente (por exemplo, em um cookie)
+      //   document.cookie = "token=" + data.token + "; path=/";
+      //   window.location.href = "./acesso-restrito/home_usuario.html"; 
+      // });
+
+      window.location.href = "./acesso-restrito/home_usuario.html"; 
 
     } else if (res.status === 401) {
       console.log("Credenciais inválidas");
@@ -68,6 +75,7 @@ function fazerLogin() {
     console.log(res);
   });
 };
+
 
 
 document.getElementById("criarContaBtn").addEventListener("click", function() {

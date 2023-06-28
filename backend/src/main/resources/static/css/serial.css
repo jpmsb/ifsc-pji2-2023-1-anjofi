@@ -1,63 +1,92 @@
+/* Estilos para o cabeçalho */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+/* Estilos para o menu do cabeçalho */
+.cabecalho__menu {
+  display: flex;
+}
+
+.cabecalho__menu__item {
+  margin-right: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+/* Estilos para o container de login */
+#container-login {
+  margin-top: 80px;
+  text-align: center;
+}
+
+/* Estilos para o título do container de login */
+#container-login h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Estilos para o formulário de login */
+#logincad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilos para as labels do formulário */
+#logincad label {
+  margin-bottom: 10px;
+}
+
+/* Estilos para os inputs do formulário */
+#logincad input {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+/* Estilos para o botão de envio de cadastro */
+#btn-logincad {
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos para o container de animação */
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* Estilos para a imagem animada */
+.animation {
+  animation: rotate 10s linear forwards;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilos gerais */
 body {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 20px;
-  }
-  
-  form {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-  }
-  
-  button {
-    background-color: #4caf50;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 0 5px;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilos para o conteúdo após o cabeçalho */
+body > *:not(header) {
+  margin-top: 120px;
+}
