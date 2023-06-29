@@ -32,7 +32,12 @@ function cadastrar() {
         console.log("Cadastro realizado com sucesso");
         window.location.href = "login.html"; 
     }
-    else {
+      else if (res.status === 500) {
+      exibirErro("Erro ao cadastrar. Verifique os dados e tente novamente.");
+      var erroCadastro = document.getElementById("erro-cadastro");
+      erroCadastro.innerHTML = "Erro no servidor. Tente novamente mais tarde.";
+      }
+      else {
       exibirErro("Erro ao cadastrar. Verifique os dados e tente novamente.");
       var erroCadastro = document.getElementById("erro-cadastro");
       erroCadastro.innerHTML = "Erro ao fazer cadastro. ID indisponivel";
@@ -42,7 +47,7 @@ function cadastrar() {
     .catch(function (res) {
       console.log(res);
       var erroCadastro = document.getElementById("erro-cadastro");
-      erroCadastro.innerHTML = "Erro de conexao. Verifique sua conexao com a internet.";
+      erroCadastro.innerHTML = "Erro ao fazer cadastro. ID indisponivel.";
     });
   }
   

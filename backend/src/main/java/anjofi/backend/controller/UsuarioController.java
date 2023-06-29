@@ -48,7 +48,9 @@ public class UsuarioController {
         if(Operacao.adicionarUsuario(n)== true){
             return HttpStatus.OK;
         }else{
-            return HttpStatus.I_AM_A_TEAPOT;
+            System.out.println("eroooooooooooooooooo");
+
+        throw new RuntimeException("Ocorreu um erro ao adicionar o usuário.");
         }
        
     }
