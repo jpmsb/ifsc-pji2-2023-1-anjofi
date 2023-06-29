@@ -33,8 +33,8 @@ public class LoginController {
         System.out.println(Operacao.validarSenha(p.getId(), p.getSenha()));
         
 
-        if(Operacao.exibirUsuario(p.getId()).getId().equals(p.getId()) && !Operacao.exibirUsuario(p.getId()).getId().isEmpty() &&
-        criptografar(criptografar(p.getSenha())).equals(Operacao.exibirUsuario(p.getId()).getSenha())){
+        if(Operacao.exibirUsuario(p.getId()).getId().equals(p.getId()) &&
+        criptografar(p.getSenha()).equals(Operacao.exibirUsuario(p.getId()).getSenha())){
             
              return ResponseEntity.ok().build();   
         }
