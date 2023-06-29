@@ -2,8 +2,17 @@ const formulario = document.querySelector("form");
 const Iids = document.querySelector(".ids");
 
 
+let serverAddress;
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  serverAddress = 'http://localhost:8080';
+} 
+else {
+  serverAddress = 'http://----------:8080';
+}
+
+
 function cadastrar_serial() {
-    fetch("http://localhost:8080/usuarios/serial", {
+    fetch(serverAddress + "/usuarios/serial", {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

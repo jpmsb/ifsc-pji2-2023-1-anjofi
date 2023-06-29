@@ -21,13 +21,13 @@ header {
 
 /* Estilos para o conteúdo principal */
 body {
-  margin-top: 60px;
+  margin-top: 5px;
   padding: 20px;
 }
 
 /* Estilos para o título dos valores atualizados */
 h1 {
-  margin-top: 0;
+  margin-top: 10;
 }
 
 /* Estilos para o container de dados */
@@ -35,7 +35,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1px;
 }
 
 /* Estilos para cada retângulo de dado */
@@ -56,3 +56,27 @@ h1 {
 #dados p span {
   font-weight: normal;
 }
+
+/* Estilos para o container de animação */
+.container {
+  display: flex;
+  justify-content:space-between;
+  
+}
+
+/* Estilos para a imagem animada */
+.animation {
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+

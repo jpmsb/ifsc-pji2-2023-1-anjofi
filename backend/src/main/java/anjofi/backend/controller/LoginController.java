@@ -22,9 +22,16 @@ public class LoginController {
     
     @PostMapping()
     public ResponseEntity<Void> login(@RequestBody Usuario p){
-              
 
-        if((!Operacao.exibirUsuario(p.getId()).getId().equals(p.getId())|| !Operacao.exibirUsuario(p.getId()).getId().isEmpty()) &&
+        // System.out.println(Operacao.exibirUsuario(p.getId()).getId().equals(p.getId()));
+        // System.out.println(Operacao.exibirUsuario(p.getId()).getId());
+        // System.out.println(criptografar(criptografar(p.getSenha())));
+       
+        // System.out.println(Operacao.exibirUsuario(p.getId()).getSenha());   
+        // System.out.println(criptografar(criptografar(p.getSenha())).equals(Operacao.exibirUsuario(p.getId()).getSenha()));
+        
+
+        if(Operacao.exibirUsuario(p.getId()).getId().equals(p.getId()) && !Operacao.exibirUsuario(p.getId()).getId().isEmpty() &&
         criptografar(criptografar(p.getSenha())).equals(Operacao.exibirUsuario(p.getId()).getSenha())){
             
              return ResponseEntity.ok().build();   

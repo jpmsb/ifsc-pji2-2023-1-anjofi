@@ -1,5 +1,14 @@
+let serverAddress;
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  serverAddress = 'http://localhost:8080';
+} 
+else {
+  serverAddress = 'http://----------:8080';
+}
+
+
 function atualizarValores() {
-  fetch("http://localhost:8080/iniciar")
+  fetch(serverAddress + "/iniciar")
     .then(response => response.json())
     .then(data => {
       const temperaturaElement = document.getElementById('temperatura');
