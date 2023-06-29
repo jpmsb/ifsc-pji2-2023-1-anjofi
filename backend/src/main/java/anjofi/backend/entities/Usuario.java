@@ -15,8 +15,8 @@ public class Usuario {
     public Usuario(String id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
-        this.email = criptografar(email);
-        this.senha = criptografar(senha);
+        this.email = email;
+        this.senha = senha;
     }
 
     public String getId() {
@@ -33,6 +33,14 @@ public class Usuario {
 
     public String getSenha() {
         return senha;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public static String criptografar(String texto) {
