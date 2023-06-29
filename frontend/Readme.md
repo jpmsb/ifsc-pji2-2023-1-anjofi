@@ -1,6 +1,6 @@
 # Frontend
 
-Este repositório contém um link que integra parte do frontend dentro da estrutura do backend utilizando a API com Spring Boot. Para acessar o repositório do backend, onde a parte do frontend está localizada dentro da pasta "resources", clique no seguinte link: 
+Este repositório contém um projeto que integra parte do frontend desenvolvido em HTML, CSS e JS na estrutura do backend, utilizando a API com Spring Boot. Para acessar o repositório do backend, onde a parte do frontend está localizada dentro da pasta "resources", clique no seguinte link:
 
 [Repositório do frontend dentro do Backend](https://github.com/ifsc-arliones/ifsc-pji2-2023-1-anjofi/tree/c00d47717027cb76f6661a2d4e63f52cffa9ae9e/backend/src/main/resources/static)
 
