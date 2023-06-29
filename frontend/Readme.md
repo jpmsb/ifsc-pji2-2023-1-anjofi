@@ -23,7 +23,7 @@ Dessa forma, o projeto possui essas páginas com diferentes funcionalidades, tan
 
 - `acesso.js`: responsável por fazer o post para o cadastro e login.
 - `att.js`: responsável por fazer o get de atualização a cada 2 segundos dos valores para o usuário.
-- `cadastro_serial.js`: responsável por fazer o post para cadastro dos usuários.
+- `cadastro_serial.js`: responsável por fazer o post para cadastro do serial.
 - `script.js`: responsável por fazer a interação do mascote AnJoFi com o usuário.
 - `verificar_autenticacao.js`: responsável por verificar o token para permitir que apenas logins cadastrados possam visualizar os dados e cadastrar dispositivos.
 
