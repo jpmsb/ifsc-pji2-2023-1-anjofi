@@ -12,23 +12,30 @@ public class Operacao {
 
     static String nomeArquivo = "arquivo.txt";
     static HashMap<String, Usuario> listaUsuarios = new HashMap<>();
-    static HashMap<String, Usuario> listaUsuariosNova = new HashMap<>();
+    // static HashMap<String, Usuario> listaUsuariosNova = new HashMap<>();
 
 
-    public static void iniciar(){
+    // public static void iniciar(){
+    //     carregarUsuariosDoArquivo();
+
+    // }
+
+    public Operacao (){
         carregarUsuariosDoArquivo();
-
     }
 
     public static boolean adicionarUsuario(Usuario usuario){
 
-        carregarUsuariosDoArquivo();
+        // carregarUsuariosDoArquivo();
 
         if (listaUsuarios.containsKey(usuario.getId())) {
             System.out.println("Já existe um usuário com o ID " + usuario.getId());
             return false;
         }
+
         System.out.println("usuário adicionado com o ID " + usuario.getId());
+        usuario.setSenha(criptografar(usuario.getSenha()));
+        usuario.setEmail(criptografar(usuario.getEmail()));
         listaUsuarios.put(usuario.getId(), usuario);
         salvarUsuariosNoArquivo();
         return true;
@@ -123,7 +130,7 @@ public class Operacao {
                
                 try {
                     listaUsuarios.containsKey(usuario.getId());
-                    listaUsuariosNova.put(id, usuario);
+                    // listaUsuariosNova.put(id, usuario);
 
                 } catch (Exception e) {
                     listaUsuarios.remove(usuario.getId());
