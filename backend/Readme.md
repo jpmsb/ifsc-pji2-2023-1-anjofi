@@ -145,9 +145,103 @@ O código depende das seguintes bibliotecas:
 
 ## Execução
 
+### Pré-requisitos
+Ter acesso a um terminal com privilégios de superusuário.
 
+### Passo 1: Atualizar os repositórios
+Abra o terminal e execute o seguinte comando:
 
+```
+sudo apt update
+```
+
+### Passo 2: Instalar o Java JDK 17
+Execute o seguinte comando no terminal:
+
+```
+sudo apt install openjdk-17-jdk
+```
+
+### Passo 3: Verificar a instalação do Java JDK
+Após a instalação, verifique se o Java JDK 17 foi instalado corretamente. Digite o seguinte comando no terminal:
+
+```
+java -version
+```
+
+### Passo 4: Baixar e instalar o Gradle 7.2
+Execute os seguintes comandos no terminal:
+
+```
+wget https://services.gradle.org/distributions/gradle-7.2-bin.zip
+sudo unzip -d /opt/gradle gradle-7.2-bin.zip
+```
+
+Esses comandos baixarão o pacote binário do Gradle 7.2 e o extrairão para o diretório `/opt/gradle`.
+
+### Passo 5: Configurar as variáveis de ambiente
+Execute o seguinte comando para abrir o arquivo `.bashrc` no editor de texto `nano`:
+
+```
+sudo nano ~/.bashrc
+```
+
+No final do arquivo, adicione as seguintes linhas:
+
+```
+export GRADLE_HOME=/opt/gradle/gradle-7.2
+export PATH=$PATH:$GRADLE_HOME/bin
+```
+
+Pressione `Ctrl + X`, digite `Y` e pressione Enter para salvar as alterações e sair do editor `nano`.
+
+### Passo 6: Carregar as alterações de ambiente
+Execute o seguinte comando no terminal:
+
+```
+source ~/.bashrc
+```
+
+### Passo 7: Verificar a instalação do Gradle
+Digite o seguinte comando no terminal:
+
+```
+gradle -v
+```
+
+## Compilando o Servidor
+
+Passo 1: Abra o terminal em seu sistema operacional. 
+
+Passo 2: Navegue até o diretório em que deseja clonar o repositório. 
+
+Passo 3: Clone o repositório
+No terminal, use o comando `git clone` seguido da URL do repositório que você copiou anteriormente. Por exemplo:
+
+```
+git clone https://github.com/ifsc-arliones/ifsc-pji2-2023-1-anjofi.git
+```
+
+Execute o comando no terminal. O Git irá baixar todos os arquivos do repositório para o diretório atual.
+
+Passo 4: Verifique o repositório clonado
+Após a conclusão da clonagem, você pode verificar o diretório recém-clonado. Use o comando `ls` para listar o conteúdo do diretório:
+
+```
+ls
+```
+Passo 5: Navegue até o diretório ifsc-pji2-2023-1-anjofi/backend e execute os comandos abaixo:
+
+```
+gradle build
+```
+
+Passo 6: Abra um navegador web e acesse o endereço:
+
+```
+http://localhost:8000
+```
 ## Observações
 
 
-
+### 
