@@ -1,14 +1,10 @@
 const formulario = document.querySelector("form");
 const Iids = document.querySelector(".ids");
-
+const port = '8080';
 
 let serverAddress;
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  serverAddress = 'http://localhost:8080';
-} 
-else {
-  serverAddress = 'http://----------:8080';
-}
+
+serverAddress = 'http://' + window.location.hostname + ':' + port;
 
 
 function cadastrar_serial() {

@@ -3,14 +3,12 @@ const Iid = document.querySelector(".id");
 const Inome = document.querySelector(".nome");
 const Iemail = document.querySelector(".email");
 const Isenha = document.querySelector(".senha");
+const port = '8080';
 
 let serverAddress;
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  serverAddress = 'http://localhost:8080';
-} 
-else {
-  serverAddress = 'http://----------:8080';
-}
+
+serverAddress = 'http://' + window.location.hostname + ':' + port;
+
 
 function cadastrar() {
     fetch(serverAddress + "/usuarios", {

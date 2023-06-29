@@ -1,10 +1,8 @@
+const port = '8080';
+
 let serverAddress;
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  serverAddress = 'http://localhost:8080';
-}
-else {
-  serverAddress = 'http://----------:8080';
-}
+
+serverAddress = 'http://' + window.location.hostname + ':' + port;
 
 // Não esta validando no backend
 // Função para verificar se o usuário está autenticado antes de permitir o acesso à página "home_usuario.html"
