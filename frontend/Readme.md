@@ -27,9 +27,14 @@ Dessa forma, o projeto possui essas páginas com diferentes funcionalidades, tan
 - `script.js`: responsável por fazer a interação do mascote AnJoFi com o usuário.
 - `verificar_autenticacao.js`: responsável por verificar o token para permitir que apenas logins cadastrados possam visualizar os dados e cadastrar dispositivos.
 
+### Segue alguns componentes em CSS, responsáveis estilo e o layout da página web:
+
+- `home_usuario.css`: responsável pelo estilo da página de dados para o usuário.
+- `home.css`: responsável pelo estilo da página de início.
+- `serial.css`: responsável pelo estilo da página de cadastro de serial.
+- `style.css`: responsável pelo estilo da página de login e cadastro.
 
 
-## Observações
 
 
 
