@@ -32,9 +32,17 @@ function cadastrar() {
         console.log("Cadastro realizado com sucesso");
         window.location.href = "login.html"; 
     }
+    else {
+      exibirErro("Erro ao cadastrar. Verifique os dados e tente novamente.");
+      var erroCadastro = document.getElementById("erro-cadastro");
+      erroCadastro.innerHTML = "Erro ao fazer cadastro. ID indisponivel";
+    }
+  
     })
     .catch(function (res) {
       console.log(res);
+      var erroCadastro = document.getElementById("erro-cadastro");
+      erroCadastro.innerHTML = "Erro de conexao. Verifique sua conexao com a internet.";
     });
   }
   
@@ -80,9 +88,6 @@ function cadastrar() {
       erroLogin.innerHTML = "Erro ao fazer login. Por favor, tente novamente.";
     });
   };
-  
-
-
 
 document.getElementById("criarContaBtn").addEventListener("click", function() {
     window.location.href = "cadastro.html"; 

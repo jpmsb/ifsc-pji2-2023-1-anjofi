@@ -29,6 +29,8 @@ public class LoginController {
        
         // System.out.println(Operacao.exibirUsuario(p.getId()).getSenha());   
         // System.out.println(criptografar(criptografar(p.getSenha())).equals(Operacao.exibirUsuario(p.getId()).getSenha()));
+
+        System.out.println(Operacao.validarSenha(p.getId(), p.getSenha()));
         
 
         if(Operacao.exibirUsuario(p.getId()).getId().equals(p.getId()) && !Operacao.exibirUsuario(p.getId()).getId().isEmpty() &&

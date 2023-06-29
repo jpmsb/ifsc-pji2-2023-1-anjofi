@@ -12,7 +12,7 @@ else {
 function verificarAutenticacao() {
     var token = getCookie("token");
     if (!token) {
-      window.location.href = "./pagina_de_login.html";
+      window.location.href = "./login.html";
       return;
     }
   
@@ -29,12 +29,12 @@ function verificarAutenticacao() {
         console.log("Usuário autenticado");
       } else {
         console.log("Token inválido");
-        window.location.href = "./pagina_de_login.html";
+        window.location.href = "./login.html";
       }
     })
     .catch(function (err) {
       console.log(err);
-      window.location.href = "./pagina_de_login.html";
+      window.location.href = "./login.html";
     });
   };
   
