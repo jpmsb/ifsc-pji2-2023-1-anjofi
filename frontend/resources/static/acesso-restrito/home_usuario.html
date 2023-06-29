@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../css/home_usuario.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/att.js" defer></script>
+    <!-- <script src="../js/verificar_autenticacao.js" defer></script>  Adiciona o js para verificar a autenticação --> 
+    <title>AnJoFi</title>
+</head>
+<header >
+  <nav class="cabecalho__menu">
+      <a class="cabecalho__menu__item" href="home_usuario.html">Home Usuario</a>
+      <a class="cabecalho__menu__item" href="serial.html">Cadastro serial</a>
+  </nav>
+</header>
+
+<body>
+
+  <h1>Valores Atualizados:</h1> 
+  <div class="container">
+    <div class="animation">
+        <img id="animated" src="../assets/Anjo.png" alt="" srcset="" width="80px">
+    </div>
+</div>
+<div id="dados">
+    <p><strong>Temperatura:</strong> <span id="temperatura"></span></p>
+    <p><strong>Umidade:</strong> <span id="umidade"></span></p>
+    <p><strong>Status do ar condicionado:</strong> <span id="acStatus"></span></p>
+    <p><strong>Status da luz:</strong> <span id="lightStatus"></span></p>
+    <p><strong>Valor atual da luz:</strong> <span id="lightCurrentValue"></span></p>
+    <p><strong>Valor base da luz:</strong> <span id="lightBaseValue"></span></p>
+  </div>
+    
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../css/serial.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/cadastro_serial.js" defer></script>
+    <title>Restrito cadastro serial</title>
+
+</head>
+<body>
+    <header>
+        
+            <nav class="cabecalho__menu">
+                <a class="cabecalho__menu__item" href="home_usuario.html">Home Usuario</a>
+                <a class="cabecalho__menu__item" href="serial.html">Cadastro serial</a>
+            </nav>
+         
+    </header>
+
+        <div id="container-login">
+            <h1>Cadastre o dispositivo</h1>
+            <form id="logincad">
+                <label for="ids">Serial</label>
+                <input type="text" class="ids" name="ids" placeholder="Digite o serial" required>                  
+            </form>
+    
+            <button onclick="cadatrar_serial()" type="submit" value="enviar-cadastro" id="btn-logincad">
+
+                Enviar cadastro
+            </button>    
+        </div>   
+
+
+    <div class="container">
+        <div class="animation">
+            <img id="animated" src="../assets/Anjo.png" alt="" srcset="" width="200px">
+        </div>
+   </div>
+    
+</body>
+</html>
