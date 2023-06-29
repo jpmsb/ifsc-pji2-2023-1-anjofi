@@ -6,7 +6,6 @@ else {
   serverAddress = 'http://----------:8080';
 }
 
-
 function atualizarValores() {
   fetch(serverAddress + "/iniciar")
     .then(response => response.json())
