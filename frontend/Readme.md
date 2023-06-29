@@ -6,12 +6,20 @@ Este repositório contém um link que integra parte do frontend dentro da estrut
 
 ## Funcionalidades
 
-O código possui as seguintes funcionalidades:
+O código apresenta 5 páginas HTML com as seguintes funcionalidades:
 
-- `temperatura`: uma string que armazena a temperatura do dispositivo.
-- `umidade`: uma string que armazena a umidade do dispositivo.
-- `estado`: uma string que armazena o estado do dispositivo.
-- `lampada`: uma string que armazena o estado da lâmpada do dispositivo.
+### Páginas Abertas
+- `index.html`: página de início, que fornece uma breve introdução e objetivos da empresa.
+- `cadastro.html`: página onde o usuário pode realizar o cadastro na plataforma.
+- `login.html`: página onde o usuário pode fazer login na plataforma.
+
+### Páginas com Acesso Restrito
+- `home_usuario.html`: página que exibe dados atualizados a cada 2 segundos.
+- `serial.html`: página onde o cliente pode cadastrar seu dispositivo em sua conta.
+
+Dessa forma, o projeto possui essas páginas com diferentes funcionalidades, tanto para usuários não autenticados quanto para aqueles com acesso restrito.
+
+
 
 
 
