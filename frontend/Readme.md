@@ -19,15 +19,13 @@ O código apresenta 5 páginas HTML com as seguintes funcionalidades:
 
 Dessa forma, o projeto possui essas páginas com diferentes funcionalidades, tanto para usuários não autenticados quanto para aqueles com acesso restrito.
 
-### Segue alguns componetes em JavaScript, responsável por adicionar interatividade e dinamismo à página.
-- `acesso.js`: página onde o cliente pode cadastrar seu dispositivo em sua conta.
-- `att.js`: página onde o cliente pode cadastrar seu dispositivo em sua conta.
-- `cadastro_serial.js`: página onde o cliente pode cadastrar seu dispositivo em sua conta.
-- `serial.html`: página onde o cliente pode cadastrar seu dispositivo em sua conta.
-- `serial.html`: página onde o cliente pode cadastrar seu dispositivo em sua conta.
+### Segue alguns componentes em JavaScript, responsáveis por adicionar interatividade e dinamismo à página:
 
-
-
+- `acesso.js`: responsável por fazer o post para o cadastro e login.
+- `att.js`: responsável por fazer o get de atualização a cada 2 segundos dos valores para o usuário.
+- `cadastro_serial.js`: responsável por fazer o post para cadastro dos usuários.
+- `script.js`: responsável por fazer a interação do mascote AnJoFi com o usuário.
+- `verificar_autenticacao.js`: responsável por verificar o token para permitir que apenas logins cadastrados possam visualizar os dados e cadastrar dispositivos.
 
 
 
