@@ -32,3 +32,5 @@
 
 ## Objetivo geral do projeto
 - Impedir que os equipamentos fiquem ligados desnecessariamente e, caso fiquem ligados, sinalizar mais rapidamente os responsáveis por desligá-los, ou ainda, desligá-los automaticamente ou remotamente.
+
+  ![](/imagens/anjofiObjetivo.png)
