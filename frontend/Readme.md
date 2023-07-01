@@ -34,6 +34,12 @@ Dessa forma, o projeto possui essas páginas com diferentes funcionalidades, tan
 - `serial.css`: responsável pelo estilo da página de cadastro de serial.
 - `style.css`: responsável pelo estilo da página de login e cadastro.
 
+### Como acessar a página de inicio?
+
+Depois de configurar os servidores MQTT e API REST e garantir que estejam em funcionamento, você poderá acessar a página inicial simplesmente digitando o seguinte endereço na barra de busca do navegador: http://localhost:8080/.
+
+No entanto, se você decidir mudar o servidor para além do "localhost" e desejar acessá-lo de uma rede externa, o código JavaScript se ajustará automaticamente.
+
 
 
 
