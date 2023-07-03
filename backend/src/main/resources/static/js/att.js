@@ -1,8 +1,30 @@
 const port = '8080';
 let serverAddress = 'http://' + window.location.hostname + ':' + port;
 
-function atualizarValores() {
+document.addEventListener("DOMContentLoaded", function() {
+  const devices = document.getElementById('devices');
+
   fetch(serverAddress + "/iniciar")
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.innerText = item;
+        devices.appendChild(option);
+      });
+    })
+    .catch(error => console.error('Ocorreu um erro:', error));
+
+  
+});
+
+function atualizarValores() {
+  const devices = document.getElementById('devices');
+  const selectedOption = devices.value;
+  const idInput = selectedOption;
+
+  fetch(serverAddress + "/iniciar/" + idInput + "/last")
     .then(response => response.json())
     .then(data => {
       const nameElement = document.getElementById('nome');
