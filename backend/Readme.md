@@ -31,7 +31,17 @@ Essa classe é utilizada como um ponto de entrada para gerenciar requisições r
 
 ## Classe `Iniciar`
 
-A classe `Iniciar` é um controlador REST responsável pela comunicação MQTT. Ela estabelece uma conexão MQTT com um servidor remoto e escuta tópicos MQTT. Ao chamar o endpoint `/iniciar` via requisição GET, o último dado recebido via MQTT é retornado como uma resposta.
+A classe `Iniciar` é um controlador REST responsável pela comunicação MQTT. Ela instancia a classe MQTT e cuida das requisições referente aos dados dos sensores. O construtor da classe ficou da seguinte forma:
+
+```
+public Iniciar(@Value("${mqtt.server}") String server, @Value("${mqtt.port}") String port, @Value("${mqtt.user}") String user, @Value("${mqtt.password}") String password)
+```
+
+As anotações `@Value("${variavel}")` fazem com que valores externos sejam injetados nas *Strings*  "server", "port", "user" e "password". Elas são obtidas a partir do arquivo "application.properties" ou por argumento de linha de comando, que será explicado posteriormente.
+
+ - Método `conectar()`: Dispara uma *thread* que se inscreve em um tópico e ficará esperando por mensagens vindas do MQTT.
+ - Método `getLastReceivedData(@PathVariable String id)`: é chamado quando `/iniciar/{id}/last` é invocado via REST, e retorna o último dado enviado por um dispositivo especificado em `{id}`.
+ - Método `listAllDevices()`: é chamado quando `/iniciar` é invocado via REST e retorna um vetor JSON com todos os dispositivos que já tenham enviado mensagens.
 
 ## Classe `LoginController`
 
@@ -110,20 +120,31 @@ A classe `AnjofiMqtt` é responsável por gerenciar a conexão MQTT e a troca de
   - `lastDevice`: uma String que armazena o último dispositivo associado à mensagem recebida.
   - `topicAndMessage`: uma String que armazena o tópico e a mensagem recebida formatados como "dispositivo:mensagem".
   - `client`: um objeto da classe `MqttClient` que representa o cliente MQTT.
+  - `receivedMessages`: uma tabela *hash* que contém os dados recbidos via MQTT. Nela, são armazenados o identificador do dispositivo e o contéudo recebido. A chave é uma *String* e o valor é um vetor de *String*. Dessa forma, há o histórico de dados recebidos por dispositivo.
 
 - Construtores:
   - `AnjofiMqtt(String server, int port, String identifier)`: construtor que recebe o endereço do servidor MQTT, a porta e o identificador do cliente MQTT. Ele estabelece uma conexão MQTT com o servidor.
-  - `AnjofiMqtt(String server, int port, String user, String password, String identifier)`: construtor que recebe o endereço do servidor MQTT, a porta, o nome de usuário, a senha e o identificador do cliente MQTT. Ele estabelece uma conexão MQTT com o servidor autenticando-se com as credenciais fornecidas.
+  - `AnjofiMqtt(String server, int port, String user, String password, String identifier)`: construtor que recebe o endereço do servidor MQTT, a porta, o nome de usuário, a senha e o identificador do cliente MQTT. Ele estabelece uma conexão MQTT com o servidor, autenticando-se com as credenciais fornecidas.
 
 - Métodos:
   - `listen(String topic)`: configura o cliente MQTT para escutar um determinado tópico. Ele se inscreve no tópico fornecido e define um callback para lidar com as mensagens recebidas.
   - `getLastReceivedData()`: retorna a última mensagem recebida pelo cliente MQTT como uma String.
-  - `getLastDevice()`: retorna o último dispositivo associado à mensagem recebida como uma String.
-  - `getTopicAndMessage()`: retorna o tópico e a mensagem recebida formatados como "dispositivo:mensagem" como uma String.
+  - `getLastDevice()`: retorna o identificador do último dispositivo cuja mensagem foi recebida pelo servidor.
+  - `getAllDevices()`: Obtém um vetor JSON com todos os dispositivos cujo servidor recebeu as mensagens.
+  - `storeNewMessage(String deviceID, String message)`: armazena a mensagem recebida no vetor de *String* referente ao dispositivo de origem.
 
-A classe `AnjofiMqtt` permite que você estabeleça uma conexão MQTT, escute os tópicos desejados e acesse as últimas mensagens recebidas.
+A classe `AnjofiMqtt` permite que você estabeleça uma conexão MQTT, escute os tópicos desejados e acesse as últimas mensagens recebidas, além de armazená-las todas de acordo com o subtópico informado.
 
 ## Classe `BackendApplication`
+
+- Atributos
+
+Os atributos têm a anotção `@Value("${variavel}")`, que injeta os valores declarados no arquivo `application.properties`, localizado em `src/main/resources/application.properties`. Além disso, são todos estáticos, que os permitem serem acessados diretamente fora da clase. Abaixo, está a especificação de cada um:
+
+  - `mqttServer`: *String* que contém o endereço do servidor MQTT;
+  - `mqttPort`: *String* que contém a porta do servidor MQTT;
+  - `mqttUser`: *String* que armazena o usuário para autenticar-se no servidor MQTT;
+  - `mqttPassword`: *String* que armazena a porta do servidor MQTT;
 
 A classe `BackendApplication` é a classe principal da aplicação Spring Boot. Ela contém o método `main` que é o ponto de entrada para iniciar a aplicação.
 
@@ -135,6 +156,9 @@ Principais características:
 
 - `throws MqttException`: a declaração `throws MqttException` no método `main` indica que o método pode lançar uma exceção do tipo `MqttException`. Essa exceção é lançada quando ocorre algum erro relacionado à biblioteca Eclipse Paho MQTT durante a execução da aplicação.
 
+- Método `run`
+
+De forma que se flexibilize a instanciação do servidor, foi implementada uma lógica simples para sobrescrever as variáveis definidas no arquivo `application.properties` através de argumentos de linha de comando. Dessa forma quaisquer um dos quatro atributos referentes ao servidor MQTT podem ser sobrescritos no momento da execução do servidor.
 
 ## Dependências
 
@@ -143,105 +167,118 @@ O código depende das seguintes bibliotecas:
 - `org.eclipse.paho.client.mqttv3`: Biblioteca para comunicação MQTT.
 - `org.springframework`: Bibliotecas para o desenvolvimento de aplicativos web utilizando o framework Spring.
 
-## Execução
+## Execução do servidor
 
 ### Pré-requisitos
-Ter acesso a um terminal com privilégios de superusuário.
 
-### Passo 1: Atualizar os repositórios
-Abra o terminal e execute o seguinte comando:
+ - Java Runtime Environment 17 ou superior;
+ - Gradle 8 ou superior;
+ - Servidor MQTT acessível a partir do sistema em que o servidor será executado.
 
-```
-sudo apt update
-```
+### Eclipse Mosquitto
 
-### Passo 2: Instalar o Java JDK 17
-Execute o seguinte comando no terminal:
+Para este projeto foi utilizado o servidor MQTT Eclipse Mosquitto, que pode ser instanciado utilizando o Docker ou Podman. No exemplo abaixo é utilizado o Docker. Para tal, primeiramente, prepara-se o ambiente, criando um diretório de trabalho:
 
 ```
-sudo apt install openjdk-17-jdk
+mkdir -p $HOME/conteineres/mosquitto/{config,log,data}
 ```
 
-### Passo 3: Verificar a instalação do Java JDK
-Após a instalação, verifique se o Java JDK 17 foi instalado corretamente. Digite o seguinte comando no terminal:
+O arquivo de configuração, localizado em `$HOME/conteineres/mosquitto/config/mosquitto.conf`. Utilize os seguintes parâmetros:
 
 ```
-java -version
+listener 1883
+persistence true
+persistence_location /mosquitto/data/
+log_dest file /mosquitto/log/mosquitto.log
+password_file /mosquitto/config/password
+log_type all
 ```
 
-### Passo 4: Baixar e instalar o Gradle 7.2
-Execute os seguintes comandos no terminal:
+Nota-se o uso do arquivo de credenciais `$HOME/conteineres/mosquitto/config/password` que contém o conteúdo abaixo:
 
 ```
-wget https://services.gradle.org/distributions/gradle-7.2-bin.zip
-sudo unzip -d /opt/gradle gradle-7.2-bin.zip
+anjofi:$7$101$sP1TAVD6P44A92Q2$Y8ekZCTW0d3OtBs0puPxlmLghrKIbC97YWdCQkoLsdrXuItuR7oPPqu6goQb/K33dq9YSPxm5y1KFq0L6iFu4Q==
 ```
 
-Esses comandos baixarão o pacote binário do Gradle 7.2 e o extrairão para o diretório `/opt/gradle`.
-
-### Passo 5: Configurar as variáveis de ambiente
-Execute o seguinte comando para abrir o arquivo `.bashrc` no editor de texto `nano`:
+Por fim, instancia-se o servidor:
 
 ```
-sudo nano ~/.bashrc
+docker run -it --name mosquitto -p 1883:1883 -p 9001:9001 -v $HOME/conteineres/mosquitto:/mosquitto eclipse-mosquitto
 ```
 
-No final do arquivo, adicione as seguintes linhas:
+### Execução do projeto Gradle
 
-```
-export GRADLE_HOME=/opt/gradle/gradle-7.2
-export PATH=$PATH:$GRADLE_HOME/bin
-```
-
-Pressione `Ctrl + X`, digite `Y` e pressione Enter para salvar as alterações e sair do editor `nano`.
-
-### Passo 6: Carregar as alterações de ambiente
-Execute o seguinte comando no terminal:
-
-```
-source ~/.bashrc
-```
-
-### Passo 7: Verificar a instalação do Gradle
-Digite o seguinte comando no terminal:
-
-```
-gradle -v
-```
-
-## Compilando o Servidor
-
-Passo 1: Abra o terminal em seu sistema operacional. 
-
-Passo 2: Navegue até o diretório em que deseja clonar o repositório. 
-
-Passo 3: Clone o repositório
-No terminal, use o comando `git clone` seguido da URL do repositório que você copiou anteriormente. Por exemplo:
+1. Clone este repositório:
 
 ```
 git clone https://github.com/ifsc-arliones/ifsc-pji2-2023-1-anjofi.git
 ```
 
-Execute o comando no terminal. O Git irá baixar todos os arquivos do repositório para o diretório atual.
-
-Passo 4: Verifique o repositório clonado
-Após a conclusão da clonagem, você pode verificar o diretório recém-clonado. Use o comando `ls` para listar o conteúdo do diretório:
+2. Entre no diretório clonado:
 
 ```
-ls
-```
-Passo 5: Navegue até o diretório ifsc-pji2-2023-1-anjofi/backend e execute os comandos abaixo:
-
-```
-gradle build
+cd ifsc-pji2-2023-1-anjofi/backend
 ```
 
-Passo 6: Abra um navegador web e acesse o endereço:
+3. O servidor pode ser instanciado das seguintes formas:
+  
+     - Com os valores padrões:
+  
+      ```
+      gradle bootRun
+      ```
+
+     - Com argumento de linha de comando que sobrescreve o valores referentes ao servidor MQTT:
+
+      ```
+      gradle bootRun --args="--mqtt.server=localhost --mqtt.port=1883 --mqtt.user=anjofi --mqtt.password=pji29006"
+      ```
+
+      Apenas os valores especificados serão sobrescritos.
+
+4. A página *web* pode ser acessada pelo endereço abaixo:
+
+  ```
+  http://localhost:8080
+  ```
+
+## Testes
+
+De forma que se consiga avaliar o comportamento do servidor com valores, é possível simular o envio de dados via MQTT, utilizando a aplicação `mosquitto_pub`, conforme mostrado no exemplo abaixo:
 
 ```
-http://localhost:8000
+mosquitto_pub -h jpmsb.ddns.net -p 51439 -m "{\"name\":\"Manual\", \"temperature\":\"28.518999\", \"humidity\":\"35.000000\", \"acStatus\":\"false\", \"lightStatus\":\"true\", \"lightCurrentValue\":\"4095\", \"lightBaseValue\":\"4095\"}" -t "AnJoFi/aaaaaaaa" -u anjofi -P pji29006
 ```
-## Observações
 
+Dessa forma, é possível simular diferentes dispositivos, bem como variar os valores:
 
-### 
+ - Nome
+ - Temperatura
+ - Umidade
+ - Status do ar-condicionado
+ - Status da luz
+ - Valor atual da luz
+ - Valor base da luz
+
+## Páginas do servidor
+
+ - Página do usuário após login
+![Valores dos sensores](imagens/monitoramento-dos-dispositivos.jpg)
+
+O dispositivo pode ser selecionado através do menu em cascata e é atualizado imediatamente. O período de atualização da página é de 2 segundos.
+
+ - Página inicial
+
+![Página inicial](imagens/pagina-inicial.jpg)
+
+- Página de login
+
+![Página de login](imagens/pagina-de-login.jpg)
+
+- Página de cadastro
+
+![Página de cadastro](imagens/pagina-de-cadastro.jpg)
+
+- Página de cadastro de serial
+  
+![Página de cadastro da serial](imagens/pagina-de-cadastro-serial.jpg)
