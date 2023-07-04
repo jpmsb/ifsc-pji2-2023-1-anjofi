@@ -222,7 +222,7 @@ cd ifsc-pji2-2023-1-anjofi/backend
 
 3. O servidor pode ser instanciado das seguintes formas:
   
-     - Com os valores padrões:
+     - Com os valores padrões: 
   
       ```
       gradle bootRun
@@ -235,6 +235,12 @@ cd ifsc-pji2-2023-1-anjofi/backend
       ```
 
       Apenas os valores especificados serão sobrescritos.
+
+      Valores padrões especificados no arquivo [`application.properties`](src/main/resources/application.properties):
+      - mqtt.server: localhost
+      - mqtt.port: 1883
+      - mqtt.user: anjofi
+      - mqtt.password: pji29006
 
 4. A página *web* pode ser acessada pelo endereço abaixo:
 
