@@ -117,10 +117,10 @@ lib_deps =
   arduino-libraries/ArduinoMqttClient@^0.1.7
 
 build_flags =
-  -DBROKER_SERVER='"jpmsb.ddns.net"'
-  -DBROKER_PORT=51439
-  -DBROKER_USER='"anjofi"'
-  -DBROKER_PASS='"pji29006"'
+  -DBROKER_SERVER='"${sysenv.BROKER_SERVER}"'
+  -DBROKER_PORT=1883
+  -DBROKER_USER='"${sysenv.BROKER_USER}"'
+  -DBROKER_PASS='"${sysenv.BROKER_PASS}"'
   -DWIFI_SSID='"${sysenv.WIFI_SSID}"'
   -DWIFI_PASS='"${sysenv.WIFI_PASS}"'
   -DDEVICE_ID='"${sysenv.DEVICE_ID}"'
@@ -135,7 +135,7 @@ Com todas as bibliotecas corretamente adicionadas no arquivo "platformio.ini", c
 Para compilar e gravar o programa no módulo ESP32, basta utilizar o seguinte comando no diretório do projeto:
 
 ```
-WIFI_SSID="Nome da rede" WIFI_PASS="senha" DEVICE_ID="$(xxd -l 4 -p /dev/random)" DEVICE_NAME="Teste" pio run -t upload
+BROKER_SERVER=servidor BROKER_USER=usuario BROKER_PASS=senha WIFI_SSID="Nome da rede" WIFI_PASS="senha" DEVICE_ID="$(xxd -l 4 -p /dev/random)" DEVICE_NAME="Teste" pio run -t upload
 ```
 
 O comando `$(xxd -l 4 -p /dev/random)` faz que seja gerada uma sequência de 8 caracteres, com númeroes de 0 a 9 e letras de "a" a "f". Dessa forma, gera-se uma sequência hexadecimal.
